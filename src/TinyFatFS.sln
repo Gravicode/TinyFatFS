@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyFatFS", "TinyFatFS\TinyFatFS.csproj", "{0E14A0CF-5EEB-4A4F-8FFA-BABF2D30E832}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFatFS", "TestFatFS\TestFatFS.csproj", "{7ACADBC4-CD3D-46A1-B8A7-B0849417284E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E14A0CF-5EEB-4A4F-8FFA-BABF2D30E832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E14A0CF-5EEB-4A4F-8FFA-BABF2D30E832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E14A0CF-5EEB-4A4F-8FFA-BABF2D30E832}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E14A0CF-5EEB-4A4F-8FFA-BABF2D30E832}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ACADBC4-CD3D-46A1-B8A7-B0849417284E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ACADBC4-CD3D-46A1-B8A7-B0849417284E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ACADBC4-CD3D-46A1-B8A7-B0849417284E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7ACADBC4-CD3D-46A1-B8A7-B0849417284E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ACADBC4-CD3D-46A1-B8A7-B0849417284E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ACADBC4-CD3D-46A1-B8A7-B0849417284E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B83599F6-336F-49D2-A1C8-C2F675E4F404}
+	EndGlobalSection
+EndGlobal

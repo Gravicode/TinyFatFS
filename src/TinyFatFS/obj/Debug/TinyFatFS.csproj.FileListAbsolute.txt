@@ -1,0 +1,11 @@
+D:\jobs\GHI.MiniFat\TinyFatFS\TinyFatFS\obj\Debug\TinyFatFS.csprojAssemblyReference.cache
+D:\jobs\GHI.MiniFat\TinyFatFS\TinyFatFS\obj\Debug\TinyFatFS.csproj.CoreCompileInputs.cache
+D:\jobs\GHI.MiniFat\TinyFatFS\TinyFatFS\bin\Debug\TinyFatFS.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TinyFatFS\bin\Debug\TinyFatFS.pdb
+D:\jobs\GHI.MiniFat\TinyFatFS\TinyFatFS\bin\Debug\GHIElectronics.TinyCLR.Devices.Gpio.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TinyFatFS\bin\Debug\GHIElectronics.TinyCLR.Devices.Spi.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TinyFatFS\bin\Debug\GHIElectronics.TinyCLR.Native.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TinyFatFS\bin\Debug\mscorlib.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TinyFatFS\obj\Debug\TinyFatFS.csproj.CopyComplete
+D:\jobs\GHI.MiniFat\TinyFatFS\TinyFatFS\obj\Debug\TinyFatFS.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TinyFatFS\obj\Debug\TinyFatFS.pdb

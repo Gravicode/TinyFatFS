@@ -1,0 +1,14 @@
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\bin\Debug\TestFatFS.exe
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\bin\Debug\TestFatFS.pdb
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.Devices.Gpio.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.Native.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.Pins.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\bin\Debug\mscorlib.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\bin\Debug\TinyFatFS.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.Devices.Spi.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\bin\Debug\TinyFatFS.pdb
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\obj\Debug\TestFatFS.csprojAssemblyReference.cache
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\obj\Debug\TestFatFS.csproj.CoreCompileInputs.cache
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\obj\Debug\TestFatFS.csproj.CopyComplete
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\obj\Debug\TestFatFS.exe
+D:\jobs\GHI.MiniFat\TinyFatFS\TestFatFS\obj\Debug\TestFatFS.pdb
