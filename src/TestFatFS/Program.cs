@@ -1,7 +1,10 @@
 ﻿using GHIElectronics.TinyCLR.Devices.Gpio;
+using GHIElectronics.TinyCLR.Devices.Storage;
+using GHIElectronics.TinyCLR.IO;
 using System;
 using System.Collections;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using System.Threading;
 using TinyFatFS;
@@ -17,11 +20,39 @@ namespace TestFatFS
         static FRESULT res;
         static FATFS fs;
         static FIL Fil;
+
+        static void AccessSD()
+        {
+            var sd = StorageController.FromName(GHIElectronics.TinyCLR.Pins.SC20260.StorageController.SdCard);
+            var drive = FileSystem.Mount(sd.Hdc);
+
+            //Show a list of files in the root directory
+            var directory = new DirectoryInfo(drive.Name);
+            var files = directory.GetFiles();
+
+            foreach (var f in files)
+            {
+                System.Diagnostics.Debug.WriteLine(f.Name);
+            }
+
+            //Create a text file and save it to the SD card.
+            var file = new FileStream($@"{drive.Name}Test.txt", FileMode.OpenOrCreate);
+            var bytes = Encoding.UTF8.GetBytes(DateTime.UtcNow.ToString() +
+                Environment.NewLine);
+
+            file.Write(bytes, 0, bytes.Length);
+
+            file.Flush();
+
+            FileSystem.Flush(sd.Hdc);
+        }
         static void Main()
         {
             //ini spi configuration first for accessing SDCard controller
             //change this spi config for SC13XXX
-            SetSPIConfig(GHIElectronics.TinyCLR.Pins.SC20260.SpiBus.Spi2, GHIElectronics.TinyCLR.Pins.SC20260.GpioPin.PD6, GHIElectronics.TinyCLR.Pins.SC20100.GpioPin.PD7);
+            //AccessSD();
+            //return;
+            SetSPIConfig(GHIElectronics.TinyCLR.Pins.SC20260.SpiBus.Spi2, GHIElectronics.TinyCLR.Pins.SC20260.GpioPin.PA13, GHIElectronics.TinyCLR.Pins.SC20100.GpioPin.PC13);
 
             fs = new FATFS();        /* FatFs work area needed for each volume, constructor : chipselect pin */
             Fil = new FIL();           /* File object needed for each open file */

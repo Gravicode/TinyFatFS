@@ -14,7 +14,7 @@ namespace TinyFatFS
             if (device == null)
             {
                 
-                var cs = GpioController.GetDefault().OpenPin(Ff.DUMMY_CS_PIN_NUM);
+                var cs = GpioController.GetDefault().OpenPin(Ff.DUMMY_CS_PIN_NUM);//DUMMY_CS_PIN_NUM
 
                 var settings = new SpiConnectionSettings()
                 {
@@ -25,7 +25,7 @@ namespace TinyFatFS
                 };
               
                 var controller = SpiController.FromName(Ff.SPI_BUS_NAME);
-                var device = controller.GetDevice(settings);
+                device = controller.GetDevice(settings);
                 /*
                 var settings = new SpiConnectionSettings(DUMMY_CS_PIN_NUM)   // The slave's select pin. Not used. CS is controlled by by GPIO pin
                 {
