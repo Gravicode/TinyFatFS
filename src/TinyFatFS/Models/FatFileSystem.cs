@@ -199,7 +199,7 @@ namespace TinyFatFS
             DiskError,            /* (1) A hard error occurred in the low level disk I/O layer */
             InternalError,             /* (2) Assertion failed */
             NotReady,           /* (3) The physical drive cannot work */
-            NoFileExist,             /* (4) Could not find the file */
+            FileNotExist,             /* (4) Could not find the file */
             PathNotFound,             /* (5) Could not find the path */
             InvalidPathName,        /* (6) The path name format is invalid */
             AccessDenied,              /* (7) Access denied due to prohibited access or directory full */
@@ -475,62 +475,62 @@ namespace TinyFatFS
         /* Load/Store multi-byte word in the FAT structure                       */
         /*-----------------------------------------------------------------------*/
 
-        static uint LoadWord(byte[] ptr, uint offs)	/*	 Load a 2-byte little-endian word */
+        static uint LoadWord(byte[] ptr, uint offset)	/*	 Load a 2-byte little-endian word */
         {
 
             uint rv;
 
-            rv = ptr[1 + offs];
-            rv = rv << 8 | ptr[0 + offs];
+            rv = ptr[1 + offset];
+            rv = rv << 8 | ptr[0 + offset];
             return rv;
         }
 
-        static uint LoadDword(byte[] ptr, uint offs)	/* Load a 4-byte little-endian word */
+        static uint LoadDword(byte[] ptr, uint offset)	/* Load a 4-byte little-endian word */
         {
 
             uint rv;
 
-            rv = ptr[3 + offs];
-            rv = rv << 8 | ptr[2 + offs];
-            rv = rv << 8 | ptr[1 + offs];
-            rv = rv << 8 | ptr[0 + offs];
+            rv = ptr[3 + offset];
+            rv = rv << 8 | ptr[2 + offset];
+            rv = rv << 8 | ptr[1 + offset];
+            rv = rv << 8 | ptr[0 + offset];
             return rv;
         }
 
-        static void StoreWord(ref byte[] ptr, uint offs, uint val)    /* Store a 2-byte word in little-endian */
+        static void StoreWord(ref byte[] ptr, uint offset, uint val)    /* Store a 2-byte word in little-endian */
         {
-            ptr[0 + offs] = (byte)val; val >>= 8;
-            ptr[1 + offs] = (byte)val;
+            ptr[0 + offset] = (byte)val; val >>= 8;
+            ptr[1 + offset] = (byte)val;
         }
 
-        static void StoreDword(ref byte[] ptr, uint offs, uint val)  /* Store a 4-byte word in little-endian */
+        static void StoreDword(ref byte[] ptr, uint offset, uint val)  /* Store a 4-byte word in little-endian */
         {
-            ptr[0 + offs] = (byte)val; val >>= 8;
-            ptr[1 + offs] = (byte)val; val >>= 8;
-            ptr[2 + offs] = (byte)val; val >>= 8;
-            ptr[3 + offs] = (byte)val;
+            ptr[0 + offset] = (byte)val; val >>= 8;
+            ptr[1 + offset] = (byte)val; val >>= 8;
+            ptr[2 + offset] = (byte)val; val >>= 8;
+            ptr[3 + offset] = (byte)val;
         }
 
         /* Copy memory to memory */
-        static void CopyMemory(ref byte[] dst, byte[] src, uint cnt)
+        static void CopyMemory(ref byte[] dst, byte[] src, uint count)
         {
-            for (int i = 0; i < cnt; i++)
+            for (int i = 0; i < count; i++)
             {
                 dst[i] = src[i];
             }
         }
 
-        static void CopyMemory(ref byte[] dst, int dstOffset, byte[] src, uint cnt)
+        static void CopyMemory(ref byte[] dst, int dstOffset, byte[] src, uint count)
         {
-            for (int i = 0; i < cnt; i++)
+            for (int i = 0; i < count; i++)
             {
                 dst[i + dstOffset] = src[i];
             }
         }
 
-        static void CopyMemory(ref byte[] dst, int dstOffset, byte[] src, int srcOffset, uint cnt)
+        static void CopyMemory(ref byte[] dst, int dstOffset, byte[] src, int srcOffset, uint count)
         {
-            for (int i = 0; i < cnt; i++)
+            for (int i = 0; i < count; i++)
             {
                 dst[i + dstOffset] = src[i + srcOffset];
             }
@@ -538,24 +538,24 @@ namespace TinyFatFS
 
 
         /* Fill memory block */
-        static void SetMemory(ref byte[] dst, int val, uint cnt)
+        static void SetMemory(ref byte[] dst, int val, uint count)
         {
-            for (int i = 0; i < cnt; i++)
+            for (int i = 0; i < count; i++)
             {
                 dst[i] = (byte)val;
             }
         }
 
-        static void SetMemory(ref byte[] dst, int dstOffset, int val, uint cnt)
+        static void SetMemory(ref byte[] dst, int dstOffset, int val, uint count)
         {
-            for (int i = 0; i < cnt; i++)
+            for (int i = 0; i < count; i++)
             {
                 dst[i + dstOffset] = (byte)val;
             }
         }
 
         /* Compare memory to memory */
-        static int CompareMemory(byte[] dst, byte[] src, int cnt)
+        static int CompareMemory(byte[] dst, byte[] src, int count)
         {
             int dIndex = 0, sIndex = 0;
             byte d, s;
@@ -565,7 +565,7 @@ namespace TinyFatFS
                 d = dst[dIndex++]; s = src[sIndex++];
                 r = d - s;
             }
-            while (--cnt > 0 && (r == 0));
+            while (--count > 0 && (r == 0));
             return r;
         }
 
@@ -1040,7 +1040,7 @@ namespace TinyFatFS
 
 
             ofs = dp.dptr + SZDIRE;    /* Next entry */
-            if (dp.sect == 0 || ofs >= MAX_DIR) return FileResult.NoFileExist;    /* Report EOT when offset has reached max value */
+            if (dp.sect == 0 || ofs >= MAX_DIR) return FileResult.FileNotExist;    /* Report EOT when offset has reached max value */
 
             if (ofs % SS(fs) == 0)
             {   /* Sector changed? */
@@ -1050,7 +1050,7 @@ namespace TinyFatFS
                 {   /* Static table */
                     if (ofs / SZDIRE >= fs.n_rootdir)
                     {   /* Report EOT if it reached end of static table */
-                        dp.sect = 0; return FileResult.NoFileExist;
+                        dp.sect = 0; return FileResult.FileNotExist;
                     }
                 }
                 else
@@ -1066,7 +1066,7 @@ namespace TinyFatFS
                             if (stretch == 0)
                             {
                                 /* If no stretch, report EOT */
-                                dp.sect = 0; return FileResult.NoFileExist;
+                                dp.sect = 0; return FileResult.FileNotExist;
                             }
                             clst = CreateChain(ref dp.obj, dp.clust);   /* Allocate a cluster */
                             if (clst == 0) return FileResult.AccessDenied;            /* No free cluster */
@@ -1120,7 +1120,7 @@ namespace TinyFatFS
                 } while (res == FileResult.Ok); /* Next entry with table stretch enabled */
             }
 
-            if (res == FileResult.NoFileExist) res = FileResult.AccessDenied; /* No directory entry to allocate */
+            if (res == FileResult.FileNotExist) res = FileResult.AccessDenied; /* No directory entry to allocate */
             return res;
         }
 
@@ -1201,7 +1201,7 @@ namespace TinyFatFS
                 res = MoveWindow(ref fs, dp.sect);
                 if (res != FileResult.Ok) break;
                 c = fs.win[dp.dirAsFsWinOffset + DIR_Name]; // HB: Test this
-                if (c == 0) { res = FileResult.NoFileExist; break; }    /* Reached to end of table */
+                if (c == 0) { res = FileResult.FileNotExist; break; }    /* Reached to end of table */
 
 
                 dp.obj.attr = (byte)(fs.win[dp.dirAsFsWinOffset + DIR_Attr] & AM_MASK); // HB: Test this
@@ -1227,7 +1227,7 @@ namespace TinyFatFS
             int vol             /* Filtered by 0:file/directory or 1:volume label */
         )
         {
-            FileResult res = FileResult.NoFileExist;
+            FileResult res = FileResult.FileNotExist;
             FatFS fs = dp.obj.fs;
             byte a, c;
 
@@ -1238,7 +1238,7 @@ namespace TinyFatFS
                 c = fs.win[dp.dirAsFsWinOffset + DIR_Name];  /* Test for the entry type */
                 if (c == 0)
                 {
-                    res = FileResult.NoFileExist; break; /* Reached to end of the directory */
+                    res = FileResult.FileNotExist; break; /* Reached to end of the directory */
                 }
 
 
@@ -1439,7 +1439,7 @@ namespace TinyFatFS
                     ns = dp.fn[NSFLAG];
                     if (res != FileResult.Ok)
                     {               /* Failed to find the object */
-                        if (res == FileResult.NoFileExist)
+                        if (res == FileResult.FileNotExist)
                         {    /* Object is not found */
                             if ((ns & NS_LAST) == 0) res = FileResult.PathNotFound;  /* Adjust error code if not last segment */
                         }
@@ -1837,7 +1837,7 @@ namespace TinyFatFS
                     if (res != FileResult.Ok)
                     {
                         /* No file, create new */
-                        if (res == FileResult.NoFileExist)
+                        if (res == FileResult.FileNotExist)
                         {
                             /* There is no file to open, create a new entry */
 
@@ -1885,7 +1885,7 @@ namespace TinyFatFS
                         /* Is the object existing? */
                         if ((dj.obj.attr & AM_DIR) > 0)
                         {       /* File open against a directory */
-                            res = FileResult.NoFileExist;
+                            res = FileResult.FileNotExist;
                         }
                         else
                         {
@@ -1962,7 +1962,7 @@ namespace TinyFatFS
         public FileResult ReadFile(
             ref FileObject fp,    /* Pointer to the file object */
             ref byte[] buffer, /* Pointer to data buffer */
-            uint fileBytesToRead,   /* Number of bytes to read */
+            uint totalBytesToRead,   /* Number of bytes to read */
             ref uint br    /* Pointer to number of bytes read */
         )
         {
@@ -1979,10 +1979,10 @@ namespace TinyFatFS
             if (res != FileResult.Ok || (res = (FileResult)fp.err) != FileResult.Ok) return res;   /* Check validity */
             if ((fp.flag & FA_READ) == 0) return FileResult.AccessDenied; /* Check access mode */
             remain = fp.obj.objsize - fp.fptr;
-            if (fileBytesToRead > remain) fileBytesToRead = remain;       /* Truncate btr by remaining bytes */
+            if (totalBytesToRead > remain) totalBytesToRead = remain;       /* Truncate btr by remaining bytes */
 
-            for (; fileBytesToRead > 0;                             /* Repeat until btr bytes read */
-                fileBytesToRead -= rcnt, br += rcnt, bufIndex += rcnt, fp.fptr += rcnt)
+            for (; totalBytesToRead > 0;                             /* Repeat until btr bytes read */
+                totalBytesToRead -= rcnt, br += rcnt, bufIndex += rcnt, fp.fptr += rcnt)
             {
                 if (fp.fptr % SS(fs) == 0)
                 {           
@@ -2017,7 +2017,7 @@ namespace TinyFatFS
                         return res;
                     }
                     sect += csect;
-                    cc = fileBytesToRead / SS(fs);                  /* When remaining bytes >= sector size, */
+                    cc = totalBytesToRead / SS(fs);                  /* When remaining bytes >= sector size, */
                     if (cc > 0)
                     {   
                         /* Read maximum contiguous sectors directly */
@@ -2067,7 +2067,7 @@ namespace TinyFatFS
                     fp.sect = sect;
                 }
                 rcnt = SS(fs) - (uint)fp.fptr % SS(fs);    /* Number of bytes left in the sector */
-                if (rcnt > fileBytesToRead) rcnt = fileBytesToRead;                 /* Clip it by btr if needed */
+                if (rcnt > totalBytesToRead) rcnt = totalBytesToRead;                 /* Clip it by btr if needed */
 
                 CopyMemory(ref buffer, (int) bufIndex, fp.buf, (int)(fp.fptr % SS(fs)), rcnt);  /* Extract partial sector */
 
@@ -2444,7 +2444,7 @@ namespace TinyFatFS
 				        res = SetDirectoryIndex(ref dp, 0);			/* Rewind directory */
 			        }
 		        }
-		        if (res == FileResult.NoFileExist) res = FileResult.PathNotFound;
+		        if (res == FileResult.FileNotExist) res = FileResult.PathNotFound;
 	        }
 	        if (res != FileResult.Ok) dp.obj.fs = null;		/* Invalidate the directory object if function faild */
 
@@ -2496,13 +2496,13 @@ namespace TinyFatFS
                 {
 
                     res = ReadFileInDirectory(ref dp);        /* Read an item */
-                    if (res == FileResult.NoFileExist) res = FileResult.Ok; /* Ignore end of directory */
+                    if (res == FileResult.FileNotExist) res = FileResult.Ok; /* Ignore end of directory */
                     if (res == FileResult.Ok)
                     {               
                         /* A valid entry is found */
                         GetFileInfo(dp, ref fno);      /* Get the object information */
                         res = NextDirectory(ref dp, 0);      /* Increment index for next */
-                        if (res == FileResult.NoFileExist) res = FileResult.Ok; /* Ignore end of directory now */
+                        if (res == FileResult.FileNotExist) res = FileResult.Ok; /* Ignore end of directory now */
                     }
 
                 }
@@ -2514,7 +2514,7 @@ namespace TinyFatFS
         /* Get File Status                                                       */
         /*-----------------------------------------------------------------------*/
 
-        public FileResult GetFileStatus(
+        public FileResult GetFileAttributes(
             string fullFilename,  /* Pointer to the file path */
             ref FileInfo fno		/* Pointer to file information to return */
         )
@@ -2724,7 +2724,7 @@ namespace TinyFatFS
 						        if (res == FileResult.Ok) {
 							        res = ReadFileInDirectory(ref sdj);			/* Test if the directory is empty */
 							        if (res == FileResult.Ok) res = FileResult.AccessDenied;	/* Not empty? */
-							        if (res == FileResult.NoFileExist) res = FileResult.Ok;	/* Empty? */
+							        if (res == FileResult.FileNotExist) res = FileResult.Ok;	/* Empty? */
 						        }
 					        }
 				        }
@@ -2771,10 +2771,10 @@ namespace TinyFatFS
 		        dj.obj.fs = fs;
                 res = FollowFilePath(ref dj, path, ref pathIndex);			/* Follow the file path */
 		        if (res == FileResult.Ok) res = FileResult.Exists;		/* Any object with same name is already existing */
-		        if (FF_FS_RPATH > 0 && res == FileResult.NoFileExist && (dj.fn[NSFLAG] & NS_DOT) > 0) {
+		        if (FF_FS_RPATH > 0 && res == FileResult.FileNotExist && (dj.fn[NSFLAG] & NS_DOT) > 0) {
 			        res = FileResult.InvalidPathName;
 		        }
-		        if (res == FileResult.NoFileExist) {				/* Can create a new directory */
+		        if (res == FileResult.FileNotExist) {				/* Can create a new directory */
 			        dcl = CreateChain(ref dj.obj, 0);     /* Allocate a cluster for the new directory table */
                     dj.obj.objsize = (uint) fs.csize* SS(fs);
                     res = FileResult.Ok;
@@ -2868,9 +2868,9 @@ namespace TinyFatFS
                         res = FollowFilePath(ref djn, path_new, ref pathNewIndex);		/* Make sure if new object name is not in use */
 				        if (res == FileResult.Ok) {						
                             /* Is new name already in use by any other object? */
-					        res = (djn.obj.sclust == djo.obj.sclust && djn.dptr == djo.dptr) ? FileResult.NoFileExist : FileResult.Exists;
+					        res = (djn.obj.sclust == djo.obj.sclust && djn.dptr == djo.dptr) ? FileResult.FileNotExist : FileResult.Exists;
 				        }
-				        if (res == FileResult.NoFileExist) { 				/* It is a valid path and no name collision */
+				        if (res == FileResult.FileNotExist) { 				/* It is a valid path and no name collision */
 					        res = RegisterDirectoryObject(ref djn);			/* Register the new entry */
 					        if (res == FileResult.Ok) {
                                 dirAsFsWinOffset = djn.dirAsFsWinOffset;					/* Copy directory entry of the object except name */

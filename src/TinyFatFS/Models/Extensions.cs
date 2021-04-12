@@ -78,7 +78,7 @@ namespace TinyFatFS
                     case FileResult.NotReady:
                         msg = "Disk Not Ready";
                         break;
-                    case FileResult.NoFileExist:
+                    case FileResult.FileNotExist:
                         msg = "No File Exists";
                         break;
                     case FileResult.PathNotFound:

@@ -19,7 +19,7 @@ namespace TestFatFS
         static uint bw = 0;
         static FileResult res;
         static FatFS fs;
-        static FileObject Fil;
+        static FileObject fileObject;
 
         static void AccessSD()
         {
@@ -52,10 +52,10 @@ namespace TestFatFS
             //change this spi config for SC13XXX
             //AccessSD();
             //return;
-            SetSPIConfig(GHIElectronics.TinyCLR.Pins.SC20260.SpiBus.Spi2, GHIElectronics.TinyCLR.Pins.SC20260.GpioPin.PA13, GHIElectronics.TinyCLR.Pins.SC20100.GpioPin.PC13);
+            FatFileSystem.SetSPIConfig(GHIElectronics.TinyCLR.Pins.SC20260.SpiBus.Spi2, GHIElectronics.TinyCLR.Pins.SC20260.GpioPin.PA13, GHIElectronics.TinyCLR.Pins.SC20100.GpioPin.PC13);
 
             fs = new FatFS();        /* FatFs work area needed for each volume, constructor : chipselect pin */
-            Fil = new FileObject();           /* File object needed for each open file */
+            fileObject = new FileObject();           /* File object needed for each open file */
 
             Debug.WriteLine("Start");
             GpioPin led = GpioController.GetDefault().OpenPin(
@@ -104,14 +104,14 @@ namespace TestFatFS
         {
 
 
-            if ((res = FatFileSystem.Current.OpenFile(ref Fil, "/sub1/File1.txt", FA_WRITE | FA_CREATE_ALWAYS)) == FatFileSystem.FileResult.Ok)
+            if ((res = FatFileSystem.Current.OpenFile(ref fileObject, "/sub1/File1.txt", FA_WRITE | FA_CREATE_ALWAYS)) == FatFileSystem.FileResult.Ok)
             {   /* Create a file */
                 Random rnd = new Random();
                 var payload = $"File contents is: It works ({rnd.Next()})!".ToByteArray();
-                res = FatFileSystem.Current.WriteFile(ref Fil, payload, (uint)payload.Length, ref bw);    /* Write data to the file */
+                res = FatFileSystem.Current.WriteFile(ref fileObject, payload, (uint)payload.Length, ref bw);    /* Write data to the file */
                 res.ThrowIfError();
 
-                res = FatFileSystem.Current.CloseFile(ref Fil);   /* Close the file */
+                res = FatFileSystem.Current.CloseFile(ref fileObject);   /* Close the file */
                 res.ThrowIfError();
             }
             else
@@ -125,17 +125,17 @@ namespace TestFatFS
         static void ReadFileExample()
         {
 
-            if (FatFileSystem.Current.OpenFile(ref Fil, "/sub1/File1.txt", FA_READ) == FatFileSystem.FileResult.Ok)
+            if (FatFileSystem.Current.OpenFile(ref fileObject, "/sub1/File1.txt", FA_READ) == FatFileSystem.FileResult.Ok)
             {   /* Create a file */
 
                 var newPayload = new byte[5000];
-                res = FatFileSystem.Current.ReadFile(ref Fil, ref newPayload, 5000, ref bw);    /* Read data from file */
+                res = FatFileSystem.Current.ReadFile(ref fileObject, ref newPayload, 5000, ref bw);    /* Read data from file */
                 res.ThrowIfError();
 
                 var msg = Encoding.UTF8.GetString(newPayload, 0, (int)bw);
                 Debug.WriteLine($"{msg}");
 
-                res = FatFileSystem.Current.CloseFile(ref Fil);                              /* Close the file */
+                res = FatFileSystem.Current.CloseFile(ref fileObject);                              /* Close the file */
                 res.ThrowIfError();
             }
 
@@ -157,13 +157,13 @@ namespace TestFatFS
             res = FatFileSystem.Current.MountDrive(ref fs, "", 1);
             res.ThrowIfError();
 
-            res = Scan_Files("/");
+            res = ScanFiles("/");
             res.ThrowIfError();
 
             Debug.WriteLine("Directories successfully listed");
         }
 
-        private static FileResult Scan_Files(string path)
+        private static FileResult ScanFiles(string path)
         {
             FileResult res;
             FatFileSystem.FileInfo fno = new FatFileSystem.FileInfo();
@@ -183,7 +183,7 @@ namespace TestFatFS
                         /* It is a directory */
                         var newpath = path + "/" + fno.fileName.ToStringNullTerminationRemoved();
                         Debug.WriteLine($"Directory: {path}/{fno.fileName.ToStringNullTerminationRemoved()}");
-                        res = Scan_Files(newpath);                    /* Enter the directory */
+                        res = ScanFiles(newpath);                    /* Enter the directory */
                         if (res != FileResult.Ok) break;
                     }
                     else
@@ -219,7 +219,7 @@ namespace TestFatFS
 
             FatFileSystem.FileInfo fno = new FatFileSystem.FileInfo();
 
-            res = FatFileSystem.Current.GetFileStatus("/sub1/File2.txt", ref fno);
+            res = FatFileSystem.Current.GetFileAttributes("/sub1/File2.txt", ref fno);
             switch (res)
             {
 
@@ -236,7 +236,7 @@ namespace TestFatFS
                            (fno.fileAttribute & AM_ARC) > 0 ? 'A' : '-'));
                     break;
 
-                case FatFileSystem.FileResult.NoFileExist:
+                case FatFileSystem.FileResult.FileNotExist:
                     Debug.WriteLine("File does not exist");
                     break;
 

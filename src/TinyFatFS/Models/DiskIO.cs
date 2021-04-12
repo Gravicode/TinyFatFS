@@ -55,7 +55,10 @@ namespace TinyFatFS
 
         #region Original C include file definition
 
-        /* Results of Disk Functions */
+
+        /// <summary>
+        /// /* Results of Disk Functions */
+        /// </summary>
         public enum DiskResult
         {
             Ok = 0,     /* 0: Successful */
@@ -83,6 +86,7 @@ namespace TinyFatFS
 
 
         /* MMC card type flags (MMC_GET_TYPE) */
+     
         const byte CardTypeMMC = 0x01;       /* MMC ver 3 */
         const byte CardTypeSDv1 = 0x02;       /* SD ver 1 */
         const byte CardTypeSDv2 = 0x04;       /* SD ver 2 */
