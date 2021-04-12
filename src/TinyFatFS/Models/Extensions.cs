@@ -1,7 +1,7 @@
 ﻿using GHIElectronics.TinyCLR.Devices.Gpio;
 using System;
 using System.Text;
-using static TinyFatFS.Ff;
+using static TinyFatFS.FatFileSystem;
 
 namespace TinyFatFS
 {
@@ -54,80 +54,80 @@ namespace TinyFatFS
             return Encoding.UTF8.GetBytes(str);
         }
 
-        public static string ToStringNullTerminationRemoved(this byte[] buf)
+        public static string ToStringNullTerminationRemoved(this byte[] buffer)
         {
-            var value = Encoding.UTF8.GetString(buf);
+            var value = Encoding.UTF8.GetString(buffer);
             return value.TrimEnd('\0');
         }
 
-        public static void ThrowIfError (this FRESULT res)
+        public static void ThrowIfError (this FileResult result)
         {
             string msg;       
-            if (res != FRESULT.FR_OK) {
-                switch (res)
+            if (result != FileResult.Ok) {
+                switch (result)
                 {
-                    case FRESULT.FR_OK:
-                        msg = "FRESULT.FR_OK";
+                    case FileResult.Ok:
+                        msg = "OK";
                         break;
-                    case FRESULT.FR_DISK_ERR:
-                        msg = "FRESULT.FR_DISK_ERR";
+                    case FileResult.DiskError:
+                        msg = "Disk Error";
                         break;
-                    case FRESULT.FR_INT_ERR:
-                        msg = "FRESULT.FR_INT_ERR";
+                    case FileResult.InternalError:
+                        msg = "Internal Error";
                         break;
-                    case FRESULT.FR_NOT_READY:
-                        msg = "FRESULT.FR_NOT_READY";
+                    case FileResult.NotReady:
+                        msg = "Disk Not Ready";
                         break;
-                    case FRESULT.FR_NO_FILE:
-                        msg = "FRESULT.FR_NO_FILE";
+                    case FileResult.NoFileExist:
+                        msg = "No File Exists";
                         break;
-                    case FRESULT.FR_NO_PATH:
-                        msg = "FRESULT.FR_NO_PATH";
+                    case FileResult.PathNotFound:
+                        msg = "Path Not Found";
                         break;
-                    case FRESULT.FR_INVALID_NAME:
-                        msg = "FRESULT.FR_INVALID_NAME";
+                    case FileResult.InvalidPathName:
+                        msg = "Invalid Path Name";
                         break;
-                    case FRESULT.FR_DENIED:
-                        msg = "FRESULT.FR_DENIED";
+                    case FileResult.AccessDenied:
+                        msg = "Access Denied";
                         break;
-                    case FRESULT.FR_EXIST:
-                        msg = "FRESULT.FR_EXIST";
+                    case FileResult.Exists:
+                        msg = "Already Exists";
                         break;
-                    case FRESULT.FR_INVALID_OBJECT:
-                        msg = "FRESULT.FR_INVALID_OBJECT";
+                    case FileResult.InvalidObject:
+                        msg = "Invalid Object";
                         break;
-                    case FRESULT.FR_WRITE_PROTECTED:
-                        msg = "FRESULT.FR_WRITE_PROTECTED";
+                    case FileResult.WriteProtected:
+                        msg = "Disk is Write Protected";
                         break;
-                    case FRESULT.FR_INVALID_DRIVE:
-                        msg = "FRESULT.FR_INVALID_DRIVE";
+                    case FileResult.InvalidDrive:
+                        msg = "Invalid Drive";
                         break;
-                    case FRESULT.FR_NOT_ENABLED:
-                        msg = "FRESULT.FR_NOT_ENABLED";
+                    case FileResult.NotEnabled:
+                        msg = "Not Enabled";
                         break;
-                    case FRESULT.FR_NO_FILESYSTEM:
-                        msg = "FRESULT.FR_NO_FILESYSTEM";
+                    case FileResult.NoFileSystem:
+                        msg = "No File System";
                         break;
-                    case FRESULT.FR_MKFS_ABORTED:
-                        msg = "FRESULT.FR_MKFS_ABORTED";
+                    case FileResult.MKFSAborted:
+                        msg = "MKFS Aborted";
                         break;
-                    case FRESULT.FR_TIMEOUT:
-                        msg = "FRESULT.FR_TIMEOUT";
+                    case FileResult.TimeOut:
+                        msg = "Timeout";
                         break;
-                    case FRESULT.FR_LOCKED:
-                        msg = "FRESULT.FR_LOCKED";
+                    case FileResult.Locked:
+                        msg = "Disk is Locked";
                         break;
-                    case FRESULT.FR_NOT_ENOUGH_CORE:
-                        msg = "FRESULT.FR_NOT_ENOUGH_CORE";
+                    case FileResult.NotEnoughCore:
+                        msg = "Not Enough Core";
                         break;
-                    case FRESULT.FR_TOO_MANY_OPEN_FILES:
-                        msg = "FRESULT.FR_TOO_MANY_OPEN_FILES";
+                    case FileResult.TooManyOpenFiles:
+                        msg = "Too Many Open Files";
                         break;
-                    case FRESULT.FR_INVALID_PARAMETER:
-                        msg = "FRESULT.FR_INVALID_PARAMETER";
+                    case FileResult.InvalidParameter:
+                        msg = "Invalid Parameter";
                         break;
                     default:
-                        msg = "FRESULT.UNDEFINED";
+                        msg = "Undefined";
                         break;
                 }
                 throw new ApplicationException($"Error: {msg}");

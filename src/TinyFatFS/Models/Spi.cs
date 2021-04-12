@@ -14,7 +14,7 @@ namespace TinyFatFS
             if (device == null)
             {
                 
-                var cs = GpioController.GetDefault().OpenPin(Ff.DUMMY_CS_PIN_NUM);//DUMMY_CS_PIN_NUM
+                var cs = GpioController.GetDefault().OpenPin(FatFileSystem.DummyChipSelectPin);//DUMMY_CS_PIN_NUM
 
                 var settings = new SpiConnectionSettings()
                 {
@@ -24,7 +24,7 @@ namespace TinyFatFS
                     ClockFrequency = 15_000_000,
                 };
               
-                var controller = SpiController.FromName(Ff.SPI_BUS_NAME);
+                var controller = SpiController.FromName(FatFileSystem.SpiBusName);
                 device = controller.GetDevice(settings);
                 /*
                 var settings = new SpiConnectionSettings(DUMMY_CS_PIN_NUM)   // The slave's select pin. Not used. CS is controlled by by GPIO pin
@@ -41,20 +41,20 @@ namespace TinyFatFS
         }
 
         /* usi.S: Send a byte to the MMC */
-        public static void XmitSpi(byte d)
+        public static void TransmitSpi(byte d)
         {
-            byte[] writeBuf = { d };
-            device.Write(writeBuf);
+            byte[] writeBuffer = { d };
+            device.Write(writeBuffer);
         }
 
         /* usi.S: Send a 0xFF to the MMC and get the received byte */
-        public static byte RcvSpi()
+        public static byte ReceiveSpi()
         {
-            byte[] writeBuf = { 0xff };
-            byte[] readBuf = { 0x00 };
+            byte[] writeBuffer = { 0xff };
+            byte[] readBuffer = { 0x00 };
 
-            device.TransferFullDuplex(writeBuf, readBuf);
-            return readBuf[0];
+            device.TransferFullDuplex(writeBuffer, readBuffer);
+            return readBuffer[0];
         }
 
     }

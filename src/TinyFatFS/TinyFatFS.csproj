@@ -36,7 +36,7 @@
   <ItemGroup>
     <Compile Include="Models\DiskIO.cs" />
     <Compile Include="Models\Extensions.cs" />
-    <Compile Include="Models\Ff.cs" />
+    <Compile Include="Models\FatFileSystem.cs" />
     <Compile Include="Models\Spi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

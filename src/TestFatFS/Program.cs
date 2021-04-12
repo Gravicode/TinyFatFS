@@ -8,7 +8,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using TinyFatFS;
-using static TinyFatFS.Ff;
+using static TinyFatFS.FatFileSystem;
 
 namespace TestFatFS
 {
@@ -17,9 +17,9 @@ namespace TestFatFS
         // c# port of FatFs: http://elm-chan.org/fsw/ff/00index_e.html
         
         static uint bw = 0;
-        static FRESULT res;
-        static FATFS fs;
-        static FIL Fil;
+        static FileResult res;
+        static FatFS fs;
+        static FileObject Fil;
 
         static void AccessSD()
         {
@@ -54,8 +54,8 @@ namespace TestFatFS
             //return;
             SetSPIConfig(GHIElectronics.TinyCLR.Pins.SC20260.SpiBus.Spi2, GHIElectronics.TinyCLR.Pins.SC20260.GpioPin.PA13, GHIElectronics.TinyCLR.Pins.SC20100.GpioPin.PC13);
 
-            fs = new FATFS();        /* FatFs work area needed for each volume, constructor : chipselect pin */
-            Fil = new FIL();           /* File object needed for each open file */
+            fs = new FatFS();        /* FatFs work area needed for each volume, constructor : chipselect pin */
+            Fil = new FileObject();           /* File object needed for each open file */
 
             Debug.WriteLine("Start");
             GpioPin led = GpioController.GetDefault().OpenPin(
@@ -94,7 +94,7 @@ namespace TestFatFS
 
         static void MountDrive()
         {
-            res = Ff.Current.f_mount(ref fs, "", 1);     /* Give a work area to the default drive */
+            res = FatFileSystem.Current.MountDrive(ref fs, "", 1);     /* Give a work area to the default drive */
             res.ThrowIfError();
 
             Debug.WriteLine("Drive successfully mounted");
@@ -104,14 +104,14 @@ namespace TestFatFS
         {
 
 
-            if ((res = Ff.Current.f_open(ref Fil, "/sub1/File1.txt", FA_WRITE | FA_CREATE_ALWAYS)) == Ff.FRESULT.FR_OK)
+            if ((res = FatFileSystem.Current.OpenFile(ref Fil, "/sub1/File1.txt", FA_WRITE | FA_CREATE_ALWAYS)) == FatFileSystem.FileResult.Ok)
             {   /* Create a file */
                 Random rnd = new Random();
                 var payload = $"File contents is: It works ({rnd.Next()})!".ToByteArray();
-                res = Ff.Current.f_write(ref Fil, payload, (uint)payload.Length, ref bw);    /* Write data to the file */
+                res = FatFileSystem.Current.WriteFile(ref Fil, payload, (uint)payload.Length, ref bw);    /* Write data to the file */
                 res.ThrowIfError();
 
-                res = Ff.Current.f_close(ref Fil);   /* Close the file */
+                res = FatFileSystem.Current.CloseFile(ref Fil);   /* Close the file */
                 res.ThrowIfError();
             }
             else
@@ -125,17 +125,17 @@ namespace TestFatFS
         static void ReadFileExample()
         {
 
-            if (Ff.Current.f_open(ref Fil, "/sub1/File1.txt", FA_READ) == Ff.FRESULT.FR_OK)
+            if (FatFileSystem.Current.OpenFile(ref Fil, "/sub1/File1.txt", FA_READ) == FatFileSystem.FileResult.Ok)
             {   /* Create a file */
 
                 var newPayload = new byte[5000];
-                res = Ff.Current.f_read(ref Fil, ref newPayload, 5000, ref bw);    /* Read data from file */
+                res = FatFileSystem.Current.ReadFile(ref Fil, ref newPayload, 5000, ref bw);    /* Read data from file */
                 res.ThrowIfError();
 
                 var msg = Encoding.UTF8.GetString(newPayload, 0, (int)bw);
                 Debug.WriteLine($"{msg}");
 
-                res = Ff.Current.f_close(ref Fil);                              /* Close the file */
+                res = FatFileSystem.Current.CloseFile(ref Fil);                              /* Close the file */
                 res.ThrowIfError();
             }
 
@@ -144,7 +144,7 @@ namespace TestFatFS
 
         static void DeleteFileExample()
         {
-            res = Ff.Current.f_unlink("/sub1/File2.txt");     /* Give a work area to the default drive */
+            res = FatFileSystem.Current.DeleteFileOrDirectory("/sub1/File2.txt");     /* Give a work area to the default drive */
             res.ThrowIfError();
 
             Debug.WriteLine("File successfully deleted");
@@ -154,7 +154,7 @@ namespace TestFatFS
         {
 
 
-            res = Ff.Current.f_mount(ref fs, "", 1);
+            res = FatFileSystem.Current.MountDrive(ref fs, "", 1);
             res.ThrowIfError();
 
             res = Scan_Files("/");
@@ -163,36 +163,36 @@ namespace TestFatFS
             Debug.WriteLine("Directories successfully listed");
         }
 
-        private static FRESULT Scan_Files(string path)
+        private static FileResult Scan_Files(string path)
         {
-            FRESULT res;
-            FILINFO fno = new FILINFO();
-            DIR dir = new DIR();
+            FileResult res;
+            FatFileSystem.FileInfo fno = new FatFileSystem.FileInfo();
+            FatFileSystem.DirectoryObject dir = new FatFileSystem.DirectoryObject();
             byte[] buff = new byte[256];
             buff = path.ToNullTerminatedByteArray();
 
-            res = Ff.Current.f_opendir(ref dir, buff);                      /* Open the directory */
-            if (res == FRESULT.FR_OK)
+            res = FatFileSystem.Current.OpenDirectory(ref dir, buff);                      /* Open the directory */
+            if (res == FileResult.Ok)
             {
                 for (; ; )
                 {
-                    res = Ff.Current.f_readdir(ref dir, ref fno);           /* Read a directory item */
-                    if (res != FRESULT.FR_OK || fno.fname[0] == 0) break;   /* Break on error or end of dir */
-                    if ((fno.fattrib & AM_DIR) > 0 && !((fno.fattrib & AM_SYS) > 0 || (fno.fattrib & AM_HID) > 0))
+                    res = FatFileSystem.Current.ReadDirectoryEntry(ref dir, ref fno);           /* Read a directory item */
+                    if (res != FileResult.Ok || fno.fileName[0] == 0) break;   /* Break on error or end of dir */
+                    if ((fno.fileAttribute & AM_DIR) > 0 && !((fno.fileAttribute & AM_SYS) > 0 || (fno.fileAttribute & AM_HID) > 0))
                     {
                         /* It is a directory */
-                        var newpath = path + "/" + fno.fname.ToStringNullTerminationRemoved();
-                        Debug.WriteLine($"Directory: {path}/{fno.fname.ToStringNullTerminationRemoved()}");
+                        var newpath = path + "/" + fno.fileName.ToStringNullTerminationRemoved();
+                        Debug.WriteLine($"Directory: {path}/{fno.fileName.ToStringNullTerminationRemoved()}");
                         res = Scan_Files(newpath);                    /* Enter the directory */
-                        if (res != FRESULT.FR_OK) break;
+                        if (res != FileResult.Ok) break;
                     }
                     else
                     {
                         /* It is a file. */
-                        Debug.WriteLine($"File: {path}/{fno.fname.ToStringNullTerminationRemoved()}");
+                        Debug.WriteLine($"File: {path}/{fno.fileName.ToStringNullTerminationRemoved()}");
                     }
                 }
-                Ff.Current.f_closedir(ref dir);
+                FatFileSystem.Current.CloseDirectory(ref dir);
             }
 
             return res;
@@ -201,15 +201,15 @@ namespace TestFatFS
         static void CreateDirectoriesExample()
         {
 
-            res = Ff.Current.f_mkdir("sub1");
-            if (res != FRESULT.FR_EXIST) res.ThrowIfError();
+            res = FatFileSystem.Current.CreateDirectory("sub1");
+            if (res != FileResult.Exists) res.ThrowIfError();
 
 
-            res = Ff.Current.f_mkdir("sub1/sub2");
-            if (res != FRESULT.FR_EXIST) res.ThrowIfError();
+            res = FatFileSystem.Current.CreateDirectory("sub1/sub2");
+            if (res != FileResult.Exists) res.ThrowIfError();
 
-            res = Ff.Current.f_mkdir("sub1/sub2/sub3");
-            if (res != FRESULT.FR_EXIST) res.ThrowIfError();
+            res = FatFileSystem.Current.CreateDirectory("sub1/sub2/sub3");
+            if (res != FileResult.Exists) res.ThrowIfError();
 
             Debug.WriteLine("Directories successfully created");
         }
@@ -217,26 +217,26 @@ namespace TestFatFS
         static void FileExistsExample()
         {
 
-            FILINFO fno = new FILINFO();
+            FatFileSystem.FileInfo fno = new FatFileSystem.FileInfo();
 
-            res = Ff.Current.f_stat("/sub1/File2.txt", ref fno);
+            res = FatFileSystem.Current.GetFileStatus("/sub1/File2.txt", ref fno);
             switch (res)
             {
 
-                case Ff.FRESULT.FR_OK:
-                    Debug.WriteLine($"Size: {fno.fsize}");
+                case FatFileSystem.FileResult.Ok:
+                    Debug.WriteLine($"Size: {fno.fileSize}");
                     Debug.WriteLine(String.Format("Timestamp: {0}/{1}/{2}, {3}:{4}",
-                           (fno.fdate >> 9) + 1980, fno.fdate >> 5 & 15, fno.fdate & 31,
-                           fno.ftime >> 11, fno.ftime >> 5 & 63));
+                           (fno.fileDate >> 9) + 1980, fno.fileDate >> 5 & 15, fno.fileDate & 31,
+                           fno.fileTime >> 11, fno.fileTime >> 5 & 63));
                     Debug.WriteLine(String.Format("Attributes: {0}{1}{2}{3}{4}",
-                           (fno.fattrib & AM_DIR) > 0 ? 'D' : '-',
-                           (fno.fattrib & AM_RDO) > 0 ? 'R' : '-',
-                           (fno.fattrib & AM_HID) > 0 ? 'H' : '-',
-                           (fno.fattrib & AM_SYS) > 0 ? 'S' : '-',
-                           (fno.fattrib & AM_ARC) > 0 ? 'A' : '-'));
+                           (fno.fileAttribute & AM_DIR) > 0 ? 'D' : '-',
+                           (fno.fileAttribute & AM_RDO) > 0 ? 'R' : '-',
+                           (fno.fileAttribute & AM_HID) > 0 ? 'H' : '-',
+                           (fno.fileAttribute & AM_SYS) > 0 ? 'S' : '-',
+                           (fno.fileAttribute & AM_ARC) > 0 ? 'A' : '-'));
                     break;
 
-                case Ff.FRESULT.FR_NO_FILE:
+                case FatFileSystem.FileResult.NoFileExist:
                     Debug.WriteLine("File does not exist");
                     break;
 
@@ -253,8 +253,8 @@ namespace TestFatFS
             uint fre_sect, tot_sect;
 
             /* Get volume information and free clusters of drive 1 */
-            res = Ff.Current.f_getfree("0:", ref fre_clust, ref fs);
-            if (res != FRESULT.FR_OK)
+            res = FatFileSystem.Current.GetFreeSpace("0:", ref fre_clust, ref fs);
+            if (res != FileResult.Ok)
             {
                 Debug.WriteLine($"An error occured. {res.ToString()}");
                 return;
@@ -271,7 +271,7 @@ namespace TestFatFS
         static void RenameFileExample()
         {
             /* Rename an object in the default drive */
-            res = Ff.Current.f_rename("/sub1/File1.txt", "/sub1/File2.txt");
+            res = FatFileSystem.Current.RenameFileOrDirectory("/sub1/File1.txt", "/sub1/File2.txt");
             res.ThrowIfError();
 
             Debug.WriteLine("File successfully renamed");
