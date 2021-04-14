@@ -1,0 +1,9 @@
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.Devices.Storage\obj\Debug\GHIElectronics.TinyCLR.Devices.Storage.csproj.CoreCompileInputs.cache
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.Devices.Storage\bin\Debug\GHIElectronics.TinyCLR.Devices.Storage.dll
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.Devices.Storage\bin\Debug\GHIElectronics.TinyCLR.Devices.Storage.pdb
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.Devices.Storage\bin\Debug\GHIElectronics.TinyCLR.Native.dll
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.Devices.Storage\bin\Debug\mscorlib.dll
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.Devices.Storage\obj\Debug\GHIElectronics.TinyCLR.Devices.Storage.csprojAssemblyReference.cache
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.Devices.Storage\obj\Debug\GHIElectronics.TinyCLR.Devices.Storage.csproj.CopyComplete
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.Devices.Storage\obj\Debug\GHIElectronics.TinyCLR.Devices.Storage.dll
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.Devices.Storage\obj\Debug\GHIElectronics.TinyCLR.Devices.Storage.pdb

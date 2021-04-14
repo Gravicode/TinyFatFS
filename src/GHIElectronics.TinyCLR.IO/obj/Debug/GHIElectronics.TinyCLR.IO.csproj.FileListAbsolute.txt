@@ -1,0 +1,8 @@
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.IO\bin\Debug\GHIElectronics.TinyCLR.IO.dll
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.IO\bin\Debug\GHIElectronics.TinyCLR.IO.pdb
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.IO\bin\Debug\mscorlib.dll
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.IO\obj\Debug\GHIElectronics.TinyCLR.IO.csprojAssemblyReference.cache
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.IO\obj\Debug\GHIElectronics.TinyCLR.IO.csproj.CoreCompileInputs.cache
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.IO\obj\Debug\GHIElectronics.TinyCLR.IO.csproj.CopyComplete
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.IO\obj\Debug\GHIElectronics.TinyCLR.IO.dll
+D:\jobs\GHI.TinyFS\TinyFatFS\src\GHIElectronics.TinyCLR.IO\obj\Debug\GHIElectronics.TinyCLR.IO.pdb

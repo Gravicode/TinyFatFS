@@ -28,6 +28,7 @@ namespace TestFatFS
 
             //Show a list of files in the root directory
             var directory = new DirectoryInfo(drive.Name);
+            
             var files = directory.GetFiles();
 
             foreach (var f in files)

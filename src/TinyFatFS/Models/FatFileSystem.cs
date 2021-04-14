@@ -84,13 +84,7 @@ namespace TinyFatFS
             public uint winsect;       /* Current sector appearing in the win[] */
             public byte[] win;         /* Disk access window for Directory, FAT (and file data at tiny cfg) */
 
-            protected static string SpiBusName;
-            protected static int ChipSelectPin = 0;
-            public static void SetSpiBusAndCsPin(string SpiBus, int CSPin)
-            {
-                SpiBusName = SpiBus;
-                ChipSelectPin = CSPin;
-            }
+          
             public FatFS()
             {
                 win = new byte[FF_MAX_SS];

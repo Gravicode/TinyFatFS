@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyFatFS", "TinyFatFS\Tiny
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFatFS", "TestFatFS\TestFatFS.csproj", "{7ACADBC4-CD3D-46A1-B8A7-B0849417284E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHIElectronics.TinyCLR.IO", "GHIElectronics.TinyCLR.IO\GHIElectronics.TinyCLR.IO.csproj", "{EEE2E56E-E834-4555-BBC6-66971C998496}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHIElectronics.TinyCLR.Devices.Storage", "GHIElectronics.TinyCLR.Devices.Storage\GHIElectronics.TinyCLR.Devices.Storage.csproj", "{657A7B38-BA71-4442-A83D-6476E7CBC6CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{B726FB1D-0DA1-4903-BD1E-E851F9C8B9CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,9 +29,21 @@ Global
 		{7ACADBC4-CD3D-46A1-B8A7-B0849417284E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7ACADBC4-CD3D-46A1-B8A7-B0849417284E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7ACADBC4-CD3D-46A1-B8A7-B0849417284E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{EEE2E56E-E834-4555-BBC6-66971C998496}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEE2E56E-E834-4555-BBC6-66971C998496}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEE2E56E-E834-4555-BBC6-66971C998496}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEE2E56E-E834-4555-BBC6-66971C998496}.Release|Any CPU.Build.0 = Release|Any CPU
+		{657A7B38-BA71-4442-A83D-6476E7CBC6CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{657A7B38-BA71-4442-A83D-6476E7CBC6CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{657A7B38-BA71-4442-A83D-6476E7CBC6CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{657A7B38-BA71-4442-A83D-6476E7CBC6CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EEE2E56E-E834-4555-BBC6-66971C998496} = {B726FB1D-0DA1-4903-BD1E-E851F9C8B9CF}
+		{657A7B38-BA71-4442-A83D-6476E7CBC6CD} = {B726FB1D-0DA1-4903-BD1E-E851F9C8B9CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B83599F6-336F-49D2-A1C8-C2F675E4F404}
