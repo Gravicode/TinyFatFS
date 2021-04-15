@@ -57,7 +57,7 @@ namespace TestFatFS
 
             fs = new FatFS();        /* FatFs work area needed for each volume, constructor : chipselect pin */
             fileObject = new FileObject();           /* File object needed for each open file */
-
+            
             Debug.WriteLine("Start");
             GpioPin led = GpioController.GetDefault().OpenPin(
             GHIElectronics.TinyCLR.Pins.SC20260.GpioPin.PH6); //led

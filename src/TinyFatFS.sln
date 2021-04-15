@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHIElectronics.TinyCLR.Devi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{B726FB1D-0DA1-4903-BD1E-E851F9C8B9CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHIElectronics.TinyCLR.SDCard", "GHIElectronics.TinyCLR.SDCard\GHIElectronics.TinyCLR.SDCard.csproj", "{B74B1B12-AEA4-41A8-A5D2-6C9423889E29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{657A7B38-BA71-4442-A83D-6476E7CBC6CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{657A7B38-BA71-4442-A83D-6476E7CBC6CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{657A7B38-BA71-4442-A83D-6476E7CBC6CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B74B1B12-AEA4-41A8-A5D2-6C9423889E29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B74B1B12-AEA4-41A8-A5D2-6C9423889E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B74B1B12-AEA4-41A8-A5D2-6C9423889E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B74B1B12-AEA4-41A8-A5D2-6C9423889E29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{EEE2E56E-E834-4555-BBC6-66971C998496} = {B726FB1D-0DA1-4903-BD1E-E851F9C8B9CF}
 		{657A7B38-BA71-4442-A83D-6476E7CBC6CD} = {B726FB1D-0DA1-4903-BD1E-E851F9C8B9CF}
+		{B74B1B12-AEA4-41A8-A5D2-6C9423889E29} = {B726FB1D-0DA1-4903-BD1E-E851F9C8B9CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B83599F6-336F-49D2-A1C8-C2F675E4F404}

@@ -1,0 +1,11 @@
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\obj\Debug\GHIElectronics.TinyCLR.SDCard.csprojAssemblyReference.cache
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\obj\Debug\GHIElectronics.TinyCLR.SDCard.csproj.CoreCompileInputs.cache
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\bin\Debug\GHIElectronics.TinyCLR.SDCard.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\bin\Debug\GHIElectronics.TinyCLR.SDCard.pdb
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\bin\Debug\GHIElectronics.TinyCLR.Devices.Gpio.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\bin\Debug\GHIElectronics.TinyCLR.Devices.Spi.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\bin\Debug\GHIElectronics.TinyCLR.Native.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\bin\Debug\mscorlib.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\obj\Debug\GHIElectronics.TinyCLR.SDCard.csproj.CopyComplete
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\obj\Debug\GHIElectronics.TinyCLR.SDCard.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\obj\Debug\GHIElectronics.TinyCLR.SDCard.pdb
