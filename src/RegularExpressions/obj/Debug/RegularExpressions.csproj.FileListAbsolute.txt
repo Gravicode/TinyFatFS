@@ -1,0 +1,9 @@
+D:\jobs\GHI.MiniFat\TinyFatFS\src\RegularExpressions\obj\Debug\RegularExpressions.csprojAssemblyReference.cache
+D:\jobs\GHI.MiniFat\TinyFatFS\src\RegularExpressions\obj\Debug\RegularExpressions.csproj.CoreCompileInputs.cache
+D:\jobs\GHI.MiniFat\TinyFatFS\src\RegularExpressions\bin\Debug\RegularExpressions.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\RegularExpressions\bin\Debug\RegularExpressions.pdb
+D:\jobs\GHI.MiniFat\TinyFatFS\src\RegularExpressions\bin\Debug\GHIElectronics.TinyCLR.IO.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\RegularExpressions\bin\Debug\mscorlib.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\RegularExpressions\obj\Debug\RegularExpressions.csproj.CopyComplete
+D:\jobs\GHI.MiniFat\TinyFatFS\src\RegularExpressions\obj\Debug\RegularExpressions.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\RegularExpressions\obj\Debug\RegularExpressions.pdb

@@ -18,15 +18,12 @@ D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.Dev
 D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.Native.dll
 D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.Pins.dll
 D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\mscorlib.dll
-D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\TinyFatFS.dll
 D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.Devices.Spi.dll
-D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\TinyFatFS.pdb
 D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\obj\Debug\TestFatFS.csprojAssemblyReference.cache
 D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\obj\Debug\TestFatFS.csproj.CoreCompileInputs.cache
 D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\obj\Debug\TestFatFS.csproj.CopyComplete
 D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\obj\Debug\TestFatFS.exe
 D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\obj\Debug\TestFatFS.pdb
-D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.Devices.Storage.dll
 D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.IO.dll
 D:\jobs\GHI.TinyFS\TinyFatFS\src\TestFatFS\bin\Debug\TestFatFS.exe
 D:\jobs\GHI.TinyFS\TinyFatFS\src\TestFatFS\bin\Debug\TestFatFS.pdb
@@ -44,3 +41,7 @@ D:\jobs\GHI.TinyFS\TinyFatFS\src\TestFatFS\obj\Debug\TestFatFS.csproj.CoreCompil
 D:\jobs\GHI.TinyFS\TinyFatFS\src\TestFatFS\obj\Debug\TestFatFS.csproj.CopyComplete
 D:\jobs\GHI.TinyFS\TinyFatFS\src\TestFatFS\obj\Debug\TestFatFS.exe
 D:\jobs\GHI.TinyFS\TinyFatFS\src\TestFatFS\obj\Debug\TestFatFS.pdb
+D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.SDCard.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\RegularExpressions.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\GHIElectronics.TinyCLR.SDCard.pdb
+D:\jobs\GHI.MiniFat\TinyFatFS\src\TestFatFS\bin\Debug\RegularExpressions.pdb

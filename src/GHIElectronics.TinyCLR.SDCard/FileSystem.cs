@@ -1,8 +1,10 @@
-﻿using System;
+﻿using GHIElectronics.TinyCLR.SDCard.Helpers;
+using System;
 using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text;
 using TinyFatFS;
 
 namespace GHIElectronics.TinyCLR.SDCard {
@@ -36,6 +38,16 @@ namespace GHIElectronics.TinyCLR.SDCard {
             mounted[hdc] = drive;
 
             return drive;
+        }
+
+        static string ReformatPath(string sPath)
+        {
+            if (mounted.Count > 0)
+            {
+                var driveName = ((NativeDriveProvider)mounted[hdc]).Name;
+                return Strings.Replace(sPath, driveName, "/");
+            }
+            return sPath;
         }
 
         public static bool Unmount()
@@ -76,7 +88,7 @@ namespace GHIElectronics.TinyCLR.SDCard {
             }
             private bool initialized;
 
-            public string Name { get; private set; }
+            public string Name { get; set; } = "SD";
 
             public DriveType DriveType => DriveType.Removable;
 
@@ -168,37 +180,129 @@ namespace GHIElectronics.TinyCLR.SDCard {
 
             }
 
-            public string VolumeLabel => string.Empty;
+            public string VolumeLabel
+            {
+                get
+                {
+                    
+                    string path = "/";
+                    FatFileSystem.FileInfo fno = new FatFileSystem.FileInfo();
+                    FatFileSystem.DirectoryObject dir = new FatFileSystem.DirectoryObject();
+                    byte[] buff = new byte[256];
+                    buff = path.ToNullTerminatedByteArray();
+
+                    res = FatFileSystem.Current.OpenDirectory(ref dir, buff);                      /* Open the directory */
+                    if (res == FatFileSystem.FileResult.Ok)
+                    {
+                        res = FatFileSystem.Current.ReadDirectoryEntry(ref dir, ref fno);           /* Read a directory item */
+
+                        //res = FatFileSystem.Current.ReadVolumeLabel(ref dir);
+                        //return dir.fn.ToStringNullTerminationRemoved();
+                        if (res == FatFileSystem.FileResult.Ok)
+                        {
+                            return fno.fileName.ToStringNullTerminationRemoved();
+                        }
+                    }
+                    return string.Empty;
+                }
+            }
 
             
 
             public void CreateDirectory(string path)
             {
-                res = FatFileSystem.Current.CreateDirectory("sub1");
+                path = ReformatPath(path);
+                res = FatFileSystem.Current.CreateDirectory(path);
                 if (res != TinyFatFS.FatFileSystem.FileResult.Exists) res.ThrowIfError();
 
             }
 
             public void Delete(string path)
             {
-                res = FatFileSystem.Current.DeleteFileOrDirectory("/sub1/File2.txt");     /* Give a work area to the default drive */
+                path = ReformatPath(path);
+                res = FatFileSystem.Current.DeleteFileOrDirectory(path);     /* Give a work area to the default drive */
                 res.ThrowIfError();
 
             }
 
-            public IFileSystemEntryFinder Find(string path, string searchPattern)
-            {
-                throw new NotImplementedException();
-            }
-
+            public IFileSystemEntryFinder Find(string path, string searchPattern)=> new NativeFileSystemEntryFinder(ReformatPath(path), searchPattern);
+            
             public FileAttributes GetAttributes(string path)
             {
-                throw new NotImplementedException();
+                path = ReformatPath(path);
+
+                FatFileSystem.FileInfo fno = new FatFileSystem.FileInfo();
+
+                res = FatFileSystem.Current.GetFileAttributes(path, ref fno);
+                switch (res)
+                {
+
+                    case FatFileSystem.FileResult.Ok:
+                        Debug.WriteLine($"Size: {fno.fileSize}");
+                        Debug.WriteLine(String.Format("Timestamp: {0}/{1}/{2}, {3}:{4}",
+                               (fno.fileDate >> 9) + 1980, fno.fileDate >> 5 & 15, fno.fileDate & 31,
+                               fno.fileTime >> 11, fno.fileTime >> 5 & 63));
+                        Debug.WriteLine(String.Format("Attributes: {0}{1}{2}{3}{4}",
+                               (fno.fileAttribute & FatFileSystem.AM_DIR) > 0 ? 'D' : '-',
+                               (fno.fileAttribute & FatFileSystem.AM_RDO) > 0 ? 'R' : '-',
+                               (fno.fileAttribute & FatFileSystem.AM_HID) > 0 ? 'H' : '-',
+                               (fno.fileAttribute & FatFileSystem.AM_SYS) > 0 ? 'S' : '-',
+                               (fno.fileAttribute & FatFileSystem.AM_ARC) > 0 ? 'A' : '-'));
+                        if((fno.fileAttribute & FatFileSystem.AM_DIR) > 0)return FileAttributes.Directory;
+                        if ((fno.fileAttribute & FatFileSystem.AM_RDO) > 0) return FileAttributes.ReadOnly;
+                        if ((fno.fileAttribute & FatFileSystem.AM_HID) > 0) return FileAttributes.Hidden;
+                        if ((fno.fileAttribute & FatFileSystem.AM_SYS) > 0) return FileAttributes.System;
+                        if ((fno.fileAttribute & FatFileSystem.AM_ARC) > 0) return FileAttributes.Archive;
+
+                        break;
+
+                    case FatFileSystem.FileResult.FileNotExist:
+                        Debug.WriteLine("File does not exist");
+                        return FileAttributes.NotExists;
+                        //throw new Exception("File does not exist");
+                        break;
+
+                    default:
+                        Debug.WriteLine($"An error occured. {res.ToString()}");
+                        throw new Exception("error:"+res);
+                        break;
+                }
+                return FileAttributes.Normal;
             }
 
             public FileSystemEntry GetFileSystemEntry(string path)
             {
-                throw new NotImplementedException();
+                path = ReformatPath(path);
+
+                FatFileSystem.FileInfo fno = new FatFileSystem.FileInfo();
+
+                res = FatFileSystem.Current.GetFileAttributes(path, ref fno);
+                switch (res)
+                {
+
+                    case FatFileSystem.FileResult.Ok:
+                        var fileEntry = new FileSystemEntry()
+                        {
+                            CreationTime = new DateTime((int)(fno.fileDate >> 9) + 1980, (int)fno.fileDate >> 5 & 15, (int)fno.fileDate & 31,
+                               (int)fno.fileTime >> 11, (int)fno.fileTime >> 5 & 63, 0),
+                            FileName = fno.fileName.ToStringNullTerminationRemoved(),
+                            LastAccessTime = DateTime.Now,
+                            LastWriteTime = DateTime.Now,
+                            Size = fno.fileSize
+
+                        };
+
+                        return fileEntry;
+
+                    case FatFileSystem.FileResult.FileNotExist:
+                        Debug.WriteLine("File does not exist");
+                        break;
+
+                    default:
+                        Debug.WriteLine($"An error occured. {res.ToString()}");
+                        break;
+                }
+                return null;
             }
 
             public void Initialize(string name)
@@ -214,14 +318,134 @@ namespace GHIElectronics.TinyCLR.SDCard {
                 throw new NotImplementedException();
             }
 
-            public IFileStream OpenFile(string path, int bufferSize)
-            {
-                throw new NotImplementedException();
-            }
+            public IFileStream OpenFile(string path, int bufferSize)=>new NativeFileStream(ReformatPath(path), bufferSize);
 
             public void SetAttributes(string path, FileAttributes attributes)
             {
+                //not available in library
                 throw new NotImplementedException();
+            }
+        }
+        private class NativeFileStream : IFileStream, IDisposable
+        {
+            MemoryStream ms;
+            
+            FatFileSystem.FileResult res;
+            FatFileSystem.FileObject fileObject;
+            string path;
+            int bufferSize;
+            public NativeFileStream(string path, int bufferSize)
+            {
+                path = ReformatPath(path);
+                fileObject = new FatFileSystem.FileObject();
+                this.path = path;
+                this.bufferSize = bufferSize;
+                FatFileSystem.FileInfo fno = new FatFileSystem.FileInfo();
+
+                res = FatFileSystem.Current.GetFileAttributes(path, ref fno);
+                //file is not exists
+                if (res != FatFileSystem.FileResult.Ok)
+                {
+                    canWrite = true;
+                    canRead = true;
+                    canSeek = true;
+                    res = FatFileSystem.Current.OpenFile(ref fileObject, path, FatFileSystem.FA_WRITE | FatFileSystem.FA_CREATE_ALWAYS);
+                    ms = new MemoryStream();
+                }
+                else
+                {
+                    canWrite = true;
+                    canRead = true;
+                    canSeek = true;
+                    res = FatFileSystem.Current.OpenFile(ref fileObject, path, FatFileSystem.FA_READ | FatFileSystem.FA_WRITE);
+                    //put data on memory
+                    var newPayload = new byte[fno.fileSize];
+                    res = FatFileSystem.Current.ReadFile(ref fileObject, ref newPayload, fno.fileSize, ref bw);    /* Read data from file */
+                    if (res == FatFileSystem.FileResult.Ok)
+                    {
+                        ms = new MemoryStream(newPayload);
+                    }
+                }
+                res.ThrowIfError();
+
+            }
+            private bool canWrite;
+            public bool CanWrite => canWrite;
+
+            private bool canRead;
+            public bool CanRead => canRead;
+
+            private bool canSeek;
+            public bool CanSeek => canSeek;
+
+            public long Length { get => ms.Length; set => throw new NotImplementedException(); }
+
+            public void Close()
+            {
+                res = FatFileSystem.Current.CloseFile(ref fileObject);                              /* Close the file */
+                res.ThrowIfError();
+            }
+
+            public void Dispose()
+            {
+                //do nothing
+                
+                fileObject = null;
+                //throw new NotImplementedException();
+            }
+
+            public void Flush()
+            {
+                if (CanWrite)
+                {
+                    var size = bw;
+                    bw = 0;
+                    res = FatFileSystem.Current.WriteFile(ref fileObject, ms.ToArray(), size, ref bw);    /* Write data to the file */
+                    res.ThrowIfError();
+
+                    res = FatFileSystem.Current.CloseFile(ref fileObject);   /* Close the file */
+                    res.ThrowIfError();
+                }
+                //throw new NotImplementedException();
+            }
+            //file pointer
+            uint bw = 0;
+            public int Read(byte[] buffer, int offset, int count, TimeSpan timeout)
+            {
+                var x = ms.Read(buffer, offset, count);
+                bw = (uint)offset + (uint)x;
+                if (bw < 0) bw = 0;
+                if (bw >= ms.Length) bw =(uint) ms.Length - 1;
+                return x;
+                //var msg = Encoding.UTF8.GetString(buffer, 0, count);
+                //Debug.WriteLine($"{msg}");
+            }
+
+            public long Seek(long offset, SeekOrigin origin)
+            {
+                switch (origin)
+                {
+                    case SeekOrigin.Begin:
+                        bw = (uint)offset;
+                        if (bw >= ms.Length) bw = (uint)ms.Length-1;
+                        break;
+                    case SeekOrigin.Current:
+                        bw = bw + (uint)offset;
+                        if (bw >= ms.Length) bw = (uint)ms.Length-1;
+                        break;
+                    case SeekOrigin.End:
+                        bw = (uint)ms.Length - (uint)offset;
+                        if (bw < 0) bw = 0;
+                        break;
+                }
+                return bw;
+            }
+
+            public int Write(byte[] buffer, int offset, int count, TimeSpan timeout)
+            {
+                ms.Write(buffer, offset, count);
+                bw = (uint)offset + (uint)count;
+                return count - offset;
             }
         }
         /*

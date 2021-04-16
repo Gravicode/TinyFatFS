@@ -9,3 +9,6 @@ D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\bin\Debug\mscorl
 D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\obj\Debug\GHIElectronics.TinyCLR.SDCard.csproj.CopyComplete
 D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\obj\Debug\GHIElectronics.TinyCLR.SDCard.dll
 D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\obj\Debug\GHIElectronics.TinyCLR.SDCard.pdb
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\bin\Debug\RegularExpressions.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\bin\Debug\GHIElectronics.TinyCLR.IO.dll
+D:\jobs\GHI.MiniFat\TinyFatFS\src\GHIElectronics.TinyCLR.SDCard\bin\Debug\RegularExpressions.pdb

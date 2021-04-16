@@ -124,7 +124,8 @@ namespace System.IO {
                     throw new IOException("", (int)IOException.IOExceptionErrorCode.UnauthorizedAccess);
                 }
             }
-            catch {
+            catch(Exception ex) {
+                
                 // something went wrong, clean up and re-throw the exception
                 if (this._nativeFileStream != null) {
                     this._nativeFileStream.Close();

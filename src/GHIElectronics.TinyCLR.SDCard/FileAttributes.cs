@@ -6,7 +6,7 @@ using System;
 namespace System.IO
 {
     [Flags]
-    public enum FileAttributes
+    public enum FileAttributes:uint
     {
         ReadOnly = 0x1,
         Hidden = 0x2,
@@ -14,6 +14,7 @@ namespace System.IO
         Directory = 0x10,
         Archive = 0x20,
         Normal = 0x80,
+        NotExists = 0xFFFFFFFF
     }
 }
 
