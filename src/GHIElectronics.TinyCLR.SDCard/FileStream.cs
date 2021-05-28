@@ -141,7 +141,7 @@ namespace System.IO {
             if (!this._disposed) {
                 try {
                     if (this._nativeFileStream != null) {
-                        this._nativeFileStream.Close();
+                            this._nativeFileStream.Close();
                     }
                 }
                 finally {

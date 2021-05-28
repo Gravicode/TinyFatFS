@@ -54,8 +54,9 @@ namespace GHIElectronics.TinyCLR.SDCard {
                     FileName = fName,
                     LastAccessTime = DateTime.Now,
                     LastWriteTime = DateTime.Now,
-                    Size = fno.fileSize
-
+                    Size = fno.fileSize,
+                    Attributes = (System.IO.FileAttributes)fno.fileAttribute
+                   
                 };
                 if(searchRegex.IsMatch(fName))
                    return fileEntry;

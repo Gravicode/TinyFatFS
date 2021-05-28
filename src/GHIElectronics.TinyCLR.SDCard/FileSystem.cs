@@ -378,12 +378,19 @@ namespace GHIElectronics.TinyCLR.SDCard {
             private bool canSeek;
             public bool CanSeek => canSeek;
 
+            private bool isClosed = false;
+            public bool IsClosed => isClosed;
+
             public long Length { get => ms.Length; set => throw new NotImplementedException(); }
 
             public void Close()
             {
-                res = FatFileSystem.Current.CloseFile(ref fileObject);                              /* Close the file */
-                res.ThrowIfError();
+                if (!IsClosed)
+                {
+                    res = FatFileSystem.Current.CloseFile(ref fileObject);                              /* Close the file */
+                    res.ThrowIfError();
+                    isClosed = true;
+                }
             }
 
             public void Dispose()
@@ -403,8 +410,9 @@ namespace GHIElectronics.TinyCLR.SDCard {
                     res = FatFileSystem.Current.WriteFile(ref fileObject, ms.ToArray(), size, ref bw);    /* Write data to the file */
                     res.ThrowIfError();
 
-                    res = FatFileSystem.Current.CloseFile(ref fileObject);   /* Close the file */
-                    res.ThrowIfError();
+                    Close();
+                    //res = FatFileSystem.Current.CloseFile(ref fileObject);   /* Close the file */
+                    //res.ThrowIfError();
                 }
                 //throw new NotImplementedException();
             }

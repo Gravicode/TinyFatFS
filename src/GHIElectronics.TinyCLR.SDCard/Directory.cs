@@ -254,10 +254,11 @@ namespace System.IO {
                     var targetAttribute = (isDirectory ? FileAttributes.Directory : 0);
 
                     var fileinfo = ff.GetNext();
-
+                    string fname;
                     while (fileinfo != null) {
                         if ((fileinfo.Attributes & FileAttributes.Directory) == targetAttribute) {
-                            fileNames.Add(fileinfo.FileName);
+                            fname = Path.Combine(path, fileinfo.FileName);
+                            fileNames.Add(fname);
                         }
 
                         fileinfo = ff.GetNext();
